@@ -21,6 +21,8 @@ Sky sky;
 Sword sword;
 Player player;
 
+boolean collision;
+
 
 import queasycam.*;
 QueasyCam cam;
@@ -52,10 +54,10 @@ void setup()
   skypic = loadImage("sky.png");
   swordpic = loadImage("sword.png");
 
-  cam = new QueasyCam(this, 0.01f, 1000f);
-  cam.position = new PVector(246.00465, -88.16515, 85.86095);
+  cam = new QueasyCam(this, 0.01f, 10000f);
+  cam.position = new PVector(1544.5858, 190.53618, 1350.522);
   cam.setSensitivity(1f);
-  cam.speed = 2;
+  cam.speed = 5;
 
   sky = new Sky();
   sword = new Sword();
@@ -92,6 +94,11 @@ void setup()
       }
     }
   }
+
+  for (int i = 0; i < block.size(); i++)
+  {
+    block.get(i).Draw();
+  }
 }
 
 void draw()
@@ -103,16 +110,12 @@ void draw()
 
   translate(w/2, h/2);
 
-  for(int i = 0; i < block.size(); i++)
+  for (int i = 0; i < block.size(); i++)
   {
     block.get(i).Draw();
   }
+
   sword.Draw();
 
-  //player.collision();
-
-  //if (collision)
-  //{
-  //  exit();
-  //}
+  player.collision();
 }

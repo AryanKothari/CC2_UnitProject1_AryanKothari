@@ -5,8 +5,8 @@ class Sword
 
   Sword()
   {
-    pos = new PVector(cam.position.x + 50, cam.position.y + 60, cam.position.z + 50);
-    sword = createShape(BOX, 500);
+    pos = new PVector(cam.position.x + 50, cam.position.y + 50,cam.position.z + 50);
+    sword = createShape(BOX, 50);
     sword.setTexture(swordpic);
   }
 
