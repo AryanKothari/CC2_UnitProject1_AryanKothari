@@ -58,6 +58,9 @@ void setup()
   cam.position = new PVector(1544.5858, 190.53618, 1350.522);
   cam.setSensitivity(1f);
   cam.speed = 5;
+  cam.tilt = 100;
+  cam.pan = 100;
+
 
   sky = new Sky();
   sword = new Sword();
@@ -78,7 +81,6 @@ void setup()
       while (terrainheight % scl != 0) terrainheight = int(random(0, 600));
       terrain[x][y] = map(noise(xoff, yoff), 0, 1, terrainheight, terrainheight);
       terrainheight = int(random(0, 600));
-      println(terrainheight);
       xoff += 0.1;
     }
     yoff += 0.1;
@@ -95,10 +97,10 @@ void setup()
     }
   }
 
-  for (int i = 0; i < block.size(); i++)
-  {
-    block.get(i).Draw();
-  }
+  //for (int i = 0; i < block.size(); i++)
+  //{
+  //  block.get(i).Draw();
+  //}
 }
 
 void draw()
@@ -114,8 +116,17 @@ void draw()
   {
     block.get(i).Draw();
   }
+  
+   for (int i = 0; i < block.size(); i++)
+    {
+      if (block.get(i).pos.x < cam.position.x + 0 &&
+        block.get(i).pos.x + scl > cam.position.x &&
+        block.get(i).pos.y < cam.position.y + 0 &&
+        scl + block.get(i).pos.y > cam.position.y && block.get(i).pos.z < 
+        cam.position.z + 0  && block.get(i).pos.z + scl > cam.position.z)
+      {
+        println("Collision!");
+      }
+    }
 
-  sword.Draw();
-
-  player.collision();
 }
