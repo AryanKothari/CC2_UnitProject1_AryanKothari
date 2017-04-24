@@ -20,11 +20,15 @@ int terrainheight = int(random(0, 600));
 Sky sky;
 Sword sword;
 Player player;
+Sun sun;
 
-boolean collision;
+boolean collision = false;
+
+PVector pAcceleration, pVelocity, pPosition;
 
 
 import queasycam.*;
+
 QueasyCam cam;
 
 import ddf.minim.*;
@@ -44,6 +48,12 @@ void setup()
   stroke(255);
   lights();
 
+  cam = new QueasyCam(this);
+  cam.speed = 5;              // default is 3
+  cam.sensitivity = 0.5;    
+  cam.position = new PVector(1544.5858, 190.53618, 1350.522);
+  perspective(PI/3, (float)width/height, 0.01, 10000);
+
   minim = new Minim(this); //Music 
   minecraft = minim.loadFile("minecraft.mp3");
   minecraft.play();
@@ -54,17 +64,10 @@ void setup()
   skypic = loadImage("sky.png");
   swordpic = loadImage("sword.png");
 
-  cam = new QueasyCam(this, 0.01f, 10000f);
-  cam.position = new PVector(1544.5858, 190.53618, 1350.522);
-  cam.setSensitivity(1f);
-  cam.speed = 5;
-  cam.tilt = 100;
-  cam.pan = 100;
-
-
   sky = new Sky();
   sword = new Sword();
   player = new Player();
+  sun = new Sun();
 
   translate(width/2, height/2, -100);
 
@@ -96,11 +99,6 @@ void setup()
       }
     }
   }
-
-  //for (int i = 0; i < block.size(); i++)
-  //{
-  //  block.get(i).Draw();
-  //}
 }
 
 void draw()
@@ -116,17 +114,26 @@ void draw()
   {
     block.get(i).Draw();
   }
-  
-   for (int i = 0; i < block.size(); i++)
-    {
-      if (block.get(i).pos.x < cam.position.x + 0 &&
-        block.get(i).pos.x + scl > cam.position.x &&
-        block.get(i).pos.y < cam.position.y + 0 &&
-        scl + block.get(i).pos.y > cam.position.y && block.get(i).pos.z < 
-        cam.position.z + 0  && block.get(i).pos.z + scl > cam.position.z)
-      {
-        println("Collision!");
-      }
-    }
 
+  sun.Draw();
+  
+  CanvasIsHit();
+ 
+}
+
+
+
+void CanvasIsHit()
+{
+  for (int i = 0; i < block.size(); i++)
+  {
+    if (block.get(i).pos.x < cam.position.x + 0 &&
+      block.get(i).pos.x + scl > cam.position.x &&
+      block.get(i).pos.y < cam.position.y + 0 &&
+      scl + block.get(i).pos.y > cam.position.y && block.get(i).pos.z < 
+      cam.position.z + 0 && block.get(i).pos.z + scl > cam.position.z)
+    {
+      exit();
+    }
+  }
 }
